@@ -1,1 +1,2 @@
 https://www.mpich.org/static/docs/v3.2/www1/mpicc.html for mpi.h fail
+https://ycpcs.github.io/cs365-spring2017/assign/assign02.html

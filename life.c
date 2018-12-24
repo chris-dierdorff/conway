@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include "life.h"
 
+// Set this to 1 to enable debug output, 0 to disable debug output
+#define DEBUG 1
+
+// The PDEBUG macro prints debug output if (and only if) DEBUG is true;
+// use it exactly like printf
+#if DEBUG == 1
+#  define PDEBUG(args...) printf(args)
+#else
+#  define PDEBUG(args...)
+#endif
+
 Grid *life_load_board(FILE *fp)
 {
 	int rows, cols;

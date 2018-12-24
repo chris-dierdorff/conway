@@ -27,8 +27,6 @@ int main(int argc, char **argv)
 		
 	  life_compute_next_gen(grid);
 	  grid_flip(grid);
-	  
-		
 	}
 
 	// print result
