@@ -1,0 +1,1 @@
+https://www.mpich.org/static/docs/v3.2/www1/mpicc.html for mpi.h fail
