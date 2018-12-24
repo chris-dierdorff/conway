@@ -1,0 +1,68 @@
+
+
+/*	for (int i = 1 * local->cols, j = starty * local->cols; j < endy * local->cols; i++, j++) {
+		local->buf1[i] = grid->buf1[j];
+		
+	}
+*/
+
+/* 	for (int i = 1; i <= numgens; i++) {
+		//local computation	
+		if (rank != 0) {
+			//pass the first row row to previous process
+			
+			send_row(local, 1, rank - 1);
+			//get the last row from the previous process
+			recv_row(local, 0, rank - 1);
+		}
+		if (rank != size - 1) {
+			//pass last row to next process
+			send_row(local, c_s_v, rank + 1);
+			//get first row from next process
+			recv_row(local, c_s_v + 1, rank + 1);
+		}
+		
+		life_compute_next_gen(local);
+		
+		grid_flip(local);
+		
+	}
+*/
+if (rank == 0) {
+	for (int i = 0; i < c_s_v * local->cols; i++) {
+			
+			global->buf1[i] = local->buf1[i + local->cols];
+			
+		}
+
+	for (int i = 1; i < size; i++) {
+			MPI_Status st;
+			if (i != size - 1)//for all grids before last process, which may be larger
+				MPI_Recv(&global->buf1[(i * c_s_v) * global->cols], c_s_v * local->cols, MPI_CHAR, i, 					0, MPI_COMM_WORLD, &st);
+			else  //if last c_s_v size is larger
+				MPI_Recv(&global->buf1[(i * c_s_v) * global->cols], (c_s_v + grid->rows % N) * local->cols, MPI_CHAR, i, 0, MPI_COMM_WORLD, &st);
+	}
+
+		life_save_board(stdout, global);
+		
+	}
+
+}
+
+	else {
+		MPI_Send(&local->buf1[local->cols], c_s_v * local->cols, MPI_CHAR, 0, 0, MPI_COMM_WORLD);
+		
+	}
+
+/*for (int i = 0; i < local->cols; i++) {
+			local->buf1[i] = 0;
+		}
+		for (int i = local->rows * local->cols - local->cols; i < local->rows*local->cols; i++) {
+			local->buf1[i] = 0;
+		}
+		for (int i = 0, j = 0; j < local->rows; i+= local->cols, j++) {
+			local->buf1[i] = 0;
+		}
+		for (int i = local->cols - 1, j = 0; j < local->rows; i += local->cols, j++) {
+			local->buf1[i] = 0; 
+		}*/
